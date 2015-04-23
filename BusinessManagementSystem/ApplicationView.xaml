@@ -1,0 +1,212 @@
+﻿<Window xmlns:Views="clr-namespace:BusinessManagementSystem.Views"  
+        xmlns:ViewModels="clr-namespace:BusinessManagementSystem.ViewModels"
+        xmlns:HelperClasses="clr-namespace:BusinessManagementSystem.HelperClasses"
+        xmlns:ReportViews="clr-namespace:BusinessManagementSystem.Views.Reports"
+        xmlns:ReportViewModels="clr-namespace:BusinessManagementSystem.ViewModels.Reports"
+        x:Class="BusinessManagementSystem.ApplicationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ApplicationView" Height="500" Width="900">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type ViewModels:HomeViewModel}">
+            <Views:HomeView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:UserViewModel}">
+            <Views:UserView />
+        </DataTemplate>
+        <!--<DataTemplate DataType="{x:Type ViewModels:StudentViewModel}">
+            <Views:StudentView />
+        </DataTemplate>-->
+        <DataTemplate DataType="{x:Type ReportViewModels:UserReportViewModel}">
+            <ReportViews:UserReportView />
+        </DataTemplate>
+
+        <HelperClasses:BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+        <HelperClasses:BooleanToVisibilityConverter x:Key="BoolToVisConverterReverse" Reverse="True"/>
+        <HelperClasses:BooleanToVisibilityConverter x:Key="BoolToVisConverterCollapse" Collapse="True"/>
+        <HelperClasses:BooleanToVisibilityConverter x:Key="BoolToVisConverterCollapseReverse" Collapse="True" Reverse="True"/>
+
+        <Style x:Key="LinkButton" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock FontWeight="Normal">
+                            <ContentPresenter />
+                        </TextBlock>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground"  Value="Blue" />
+            <Style.Triggers>
+                <Trigger  Property="IsMouseOver" Value="true">
+                    <Setter  Property="Foreground" Value="BlueViolet" />
+                    <Setter Property="Cursor" Value="Hand" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <LinearGradientBrush x:Key="VioletGardientBrush" EndPoint="0.504,1.5" StartPoint="0.504,0.05">
+            <GradientStop Color="#e1cdf9" Offset="0"/>
+            <GradientStop Color="#FFFFFFFF" Offset="0.600"/>
+        </LinearGradientBrush>
+        
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{StaticResource VioletGardientBrush}"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+    </Window.Resources>
+    <DockPanel Name="MainPanel">
+        <Border DockPanel.Dock="Top" BorderBrush="#e1cdf9" BorderThickness="0,0,0,1" Background="#f3ebfd">
+            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label Visibility="{Binding IsAuntheticated, Converter={StaticResource BoolToVisConverter}}" FontWeight="Bold">Welcome:</Label>
+                <Label Content="{Binding UserDisplayName}" FontWeight="Bold"></Label>
+                <Button Margin="0,5,5,0" DockPanel.Dock="Right" Command="{Binding OpenLoginUserCommand}"  Style="{StaticResource LinkButton}" Visibility="{Binding IsAuntheticated, Converter={StaticResource BoolToVisConverterCollapseReverse}}">
+                    <TextBlock>Login</TextBlock>
+                </Button>
+                <Button Margin="0,5,5,0" DockPanel.Dock="Right" Command="{Binding OpenRegistrationnUserCommand}"  Style="{StaticResource LinkButton}" Visibility="{Binding IsAuntheticated, Converter={StaticResource BoolToVisConverterCollapseReverse}}">
+                    <TextBlock>Register</TextBlock>
+                </Button>
+                <Button Margin="0,5,5,0" DockPanel.Dock="Right" Style="{StaticResource LinkButton}" Command="{Binding LogoutCommand}" Visibility="{Binding IsAuntheticated, Converter={StaticResource BoolToVisConverterCollapse}}">
+                    <TextBlock>Logout</TextBlock>
+                </Button>
+            </WrapPanel>
+        </Border>
+        <Border DockPanel.Dock="Top" BorderBrush="#f3ebfd" BorderThickness="0,0,0,1" Background="{StaticResource VioletGardientBrush}">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Home" Margin="2" DockPanel.Dock="Right" Command="{Binding RedirectToHomePageCommand}"  Style="{StaticResource LinkButton}" Visibility="{Binding IsAuntheticated, Converter={StaticResource BoolToVisConverterCollapse}}"></Button>
+                <Menu IsMainMenu="True" Visibility="{Binding IsUser, Converter={StaticResource BoolToVisConverterCollapse}}" Background="{StaticResource VioletGardientBrush}">
+                    <MenuItem Header="General" ItemsSource="{Binding GeneralViewModels}">
+                        <MenuItem.ItemTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding Name}" Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding }" Style="{StaticResource LinkButton}"/>
+                            </DataTemplate>
+                        </MenuItem.ItemTemplate>
+                    </MenuItem>
+                </Menu>
+                <Menu IsMainMenu="True" Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVisConverterCollapse}}" Background="{StaticResource VioletGardientBrush}">
+                    <MenuItem Header="Administration" ItemsSource="{Binding AdministratiorViewModels}">
+                        <MenuItem.ItemTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding Name}" Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding }" Style="{StaticResource LinkButton}"/>
+                            </DataTemplate>
+                        </MenuItem.ItemTemplate>
+                    </MenuItem>
+                </Menu>
+                <Menu IsMainMenu="True" Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVisConverterCollapse}}" Background="{StaticResource VioletGardientBrush}">
+                    <MenuItem Header="Report" ItemsSource="{Binding ReportViewModels}">
+                        <MenuItem.ItemTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding Name}" Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding }" Style="{StaticResource LinkButton}"/>
+                            </DataTemplate>
+                        </MenuItem.ItemTemplate>
+                    </MenuItem>
+                </Menu>
+            </StackPanel>
+        </Border>
+        <Border DockPanel.Dock="Top" BorderBrush="Black" BorderThickness="0,0,0,0" Height="660">
+            <ContentControl Content="{Binding CurrentPageViewModel}" />
+        </Border>
+        <Popup Name="LoginPopup" IsOpen="{Binding Path=IsLoginPopupOpen}" Placement="Center" PlacementTarget="{Binding ElementName = MainPanel}" PopupAnimation="Fade">
+            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
+                <Border BorderBrush="BlueViolet" BorderThickness="1,1,1,1" Background="#e1cdf9">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="200" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0" Content="User Login:" FontWeight="Bold" Foreground="Purple"/>
+                        <Label Grid.Column="1" Grid.Row="1" Foreground="Red"  Visibility="{Binding LoginError, Converter={StaticResource BoolToVisConverterCollapse}}">
+                            <TextBlock>
+                                Username/Password are incorrect.
+                                <LineBreak></LineBreak> 
+                                Please try again or 
+                                <Button Command="{Binding OpenRegistrationnUserCommand}"  Style="{StaticResource LinkButton}">
+                                    <TextBlock>Register</TextBlock>
+                                </Button>
+                            </TextBlock>
+                        </Label>
+                        <Label Grid.Column="0" Grid.Row="2" Content="Username:"/>
+                        <Label Grid.Column="0" Grid.Row="3" Content="Password:"/>
+                        <TextBox Grid.Column="1" Grid.Row="2" Margin="3" Text="{Binding Path=UserName}"/>
+                        <PasswordBox Name="MyPasswordBox" Grid.Column="1"  Grid.Row="3" Margin="3" />
+                        <WrapPanel Grid.Column="1" Grid.Row="4">
+                            <Button Margin="3" Content="Login" Command="{Binding Path=LoginUserCommand}" CommandParameter="{Binding ElementName=MyPasswordBox}" />
+                            <Button Margin="3" Content="Cancel" Command="{Binding Path=CancelLoginCommand}" CommandParameter="{Binding ElementName=MyPasswordBox}" />
+                        </WrapPanel>
+                    </Grid>
+                </Border>
+            </WrapPanel>
+        </Popup>
+        <Popup Name="RegistrationPopup" IsOpen="{Binding Path=IsRegistrationPopupOpen}" Placement="Center" PlacementTarget="{Binding ElementName = MainPanel}" PopupAnimation="Fade">
+            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
+                <Border BorderBrush="BlueViolet" BorderThickness="1,1,1,1" Background="#e1cdf9">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="200" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0" Content="Registration:" FontWeight="Bold" Foreground="Purple"/>
+                        <Label Grid.Column="1" Grid.Row="1" Foreground="Red" Visibility="Collapsed">
+                            <TextBlock>
+                                Please fill all mandatory fields.
+                            </TextBlock>
+                        </Label>
+                        <Label Grid.Column="0" Grid.Row="2" Content="Initial:"/>
+                        <Label Grid.Column="0" Grid.Row="3" Content="First Name:"/>
+                        <Label Grid.Column="0" Grid.Row="4" Content="Middle Name:"/>
+                        <Label Grid.Column="0" Grid.Row="5" Content="Last Name:"/>
+                        <Label Grid.Column="0" Grid.Row="6" Content="Username:"/>
+                        <Label Grid.Column="0" Grid.Row="7" Content="Password:"/>
+                        <Label Grid.Column="0" Grid.Row="8" Content="EmailId:"/>
+                        <Label Grid.Column="0" Grid.Row="9" Content="Phone:"/>
+                        <TextBox Grid.Column="1" Grid.Row="2" Margin="3"/>
+                        <TextBox Grid.Column="1" Grid.Row="3" Margin="3"/>
+                        <TextBox Grid.Column="1" Grid.Row="4" Margin="3"/>
+                        <TextBox Grid.Column="1" Grid.Row="5" Margin="3"/>
+                        <TextBox Grid.Column="1" Grid.Row="6" Margin="3" Text="{Binding Path=UserName}"/>
+                        <PasswordBox Name="RegistrationPasswordBox" Grid.Column="1"  Grid.Row="7" Margin="3" />
+                        <TextBox Grid.Column="1" Grid.Row="8" Margin="3"/>
+                        <TextBox Grid.Column="1" Grid.Row="9" Margin="3"/>
+                        <WrapPanel Grid.Column="1" Grid.Row="10">
+                            <Button Margin="3" Content="Register" />
+                            <Button Margin="3" Content="Cancel"  Command="{Binding Path=CloseRegistrationnUserCommand}" />
+                        </WrapPanel>
+                    </Grid>
+                </Border>
+            </WrapPanel>
+        </Popup>
+    </DockPanel>
+</Window>
