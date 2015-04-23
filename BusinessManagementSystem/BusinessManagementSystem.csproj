@@ -81,6 +81,7 @@
     <Compile Include="Data\User.cs">
       <DependentUpon>BusinessManagementSystemModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\Reports\UserReportViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
@@ -132,7 +133,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\StudentModel.cs" />
+    <Compile Include="Models\StudentModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

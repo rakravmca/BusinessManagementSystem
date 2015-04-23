@@ -13,10 +13,11 @@
     <Property Name="MiddleName" Type="nvarchar" MaxLength="100" />
     <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="100" />
     <Property Name="BirthDate" Type="datetime" Nullable="false" />
-    <Property Name="EmailAddress" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="Gender" Type="char" Nullable="false" MaxLength="1" />
+    <Property Name="EmailAddress" Type="nvarchar" MaxLength="100" />
+    <Property Name="Gender" Type="varchar" Nullable="false" MaxLength="10" />
     <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="50" />
     <Property Name="UserType" Type="int" Nullable="false" />
   </EntityType>
 </Schema>

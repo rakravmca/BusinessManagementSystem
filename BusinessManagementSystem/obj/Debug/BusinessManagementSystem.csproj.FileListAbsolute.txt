@@ -24,4 +24,3 @@ E:\Projects\BusinessManagementSystem\BusinessManagementSystem\obj\Debug\RdlCompi
 E:\Projects\BusinessManagementSystem\BusinessManagementSystem\obj\Debug\RdlCompile.compiled
 E:\Projects\BusinessManagementSystem\BusinessManagementSystem\obj\Debug\BusinessManagementSystem.exe
 E:\Projects\BusinessManagementSystem\BusinessManagementSystem\obj\Debug\BusinessManagementSystem.pdb
-E:\Projects\BusinessManagementSystem\BusinessManagementSystem\obj\Debug\BusinessManagementSystem.csprojResolveAssemblyReference.cache
